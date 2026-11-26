@@ -1,0 +1,54 @@
+#include "structs.h"
+
+namespace cg
+{
+
+static constexpr auto gl_major = 4;
+/* TODO Jank Mac fix, consider moving this? */
+#ifndef __APPLE__
+static constexpr auto gl_minor = 6;
+static constexpr auto glsl_version = "#version 460";
+#else
+static constexpr auto gl_minor = 1;
+static constexpr auto glsl_version = "#version 410";
+#endif // APPLE
+
+const Version version =
+{
+    .gl_major = gl_major,
+    .gl_minor = gl_minor,
+    .glsl_version = glsl_version
+};
+
+const Window window =
+{
+    .window_width = 1280,
+    .window_height = 720,
+    .window_title = "Wind Turbine"
+};
+
+/*
+ * Projection.
+ * FOV, Aspect, Z_NEAR, Z_FAR
+ */
+Perspective perspective =
+{
+    .fov = glm::radians(45.0f),
+    .aspect = static_cast<float>(window.window_width) / window.window_height,
+    .z_near = 1.0f,
+    .z_far = 100.0f
+};
+
+/*
+ * View.
+ * Eye not in the center so we are outside the object.
+ * Up = y direction.
+ */
+Camera camera =
+{
+    .eye = glm::vec3(0.0f, 0.0f, 5.0f),
+    .center = glm::vec3(0.0f, 4.5f, 0.0f),
+    .up = glm::vec3(0.0f, 1.0f, 0.0f)
+};
+
+} // namespace cg
